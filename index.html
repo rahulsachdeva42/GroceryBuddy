@@ -169,7 +169,6 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">
     <div class="nav-logo-icon">
@@ -181,7 +180,6 @@
   <a href="#order" class="nav-cta">Order now</a>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-eyebrow">
     <svg viewBox="0 0 12 12"><path d="M6 1l1.5 3 3.5.5-2.5 2.5.5 3.5L6 9l-3 1.5.5-3.5L1 4.5 4.5 4z"/></svg>
@@ -193,7 +191,6 @@
   <p class="hero-note">Referral members only &nbsp;·&nbsp; Dublin area</p>
 </section>
 
-<!-- HOW IT WORKS -->
 <section class="section">
   <p class="section-label">How it works</p>
   <h2 class="section-title">Three steps to your door</h2>
@@ -223,7 +220,6 @@
   </div>
 </section>
 
-<!-- PERKS -->
 <section class="section" style="padding-top:0">
   <p class="section-label">Why GroceryBuddy</p>
   <h2 class="section-title">Built for busy neighbours</h2>
@@ -260,13 +256,11 @@
   </div>
 </section>
 
-<!-- QUOTE -->
 <div class="quote-strip">
   <blockquote>"It felt like having a helpful neighbour — not an app."</blockquote>
   <cite>— Member since launch, Blackrock</cite>
 </div>
 
-<!-- ORDER FORM -->
 <section class="form-section" id="order">
   <div class="form-section-header">
     <p class="section-label" style="text-align:center">Place your order</p>
@@ -289,7 +283,6 @@
 
     <div class="form-body">
 
-      <!-- PAGE 1 -->
       <div class="page active" id="page1">
         <div class="page-title">Welcome</div>
         <div class="page-desc">This is a referral-only service. Please confirm who invited you before we begin.</div>
@@ -307,10 +300,10 @@
           <label for="timing">Select delivery window <span class="req">*</span></label>
           <select id="timing">
             <option value="">Choose a window…</option>
-            <option value="urgent">⚡ Instant 1-Hour Urgent Delivery (€7.99 Flat Fee)</option>
-            <option value="evening">🌆 Scheduled Evening Delivery (5:00 PM – 7:00 PM) (€4.99 Flat Fee)</option>
-            <option value="tonight">🌙 Scheduled Tonight Delivery (7:00 PM – 9:00 PM) (€4.99 Flat Fee)</option>
-            <option value="nextday">🌅 Scheduled Next-Day Morning Delivery (€4.99 Flat Fee)</option>
+            <option value="⚡ Instant 1-Hour Urgent Delivery (€7.99 Flat Fee)">⚡ Instant 1-Hour Urgent Delivery (€7.99 Flat Fee)</option>
+            <option value="🌆 Scheduled Evening Delivery (5:00 PM – 7:00 PM) (€4.99 Flat Fee)">🌆 Scheduled Evening Delivery (5:00 PM – 7:00 PM) (€4.99 Flat Fee)</option>
+            <option value="🌙 Scheduled Tonight Delivery (7:00 PM – 9:00 PM) (€4.99 Flat Fee)">🌙 Scheduled Tonight Delivery (7:00 PM – 9:00 PM) (€4.99 Flat Fee)</option>
+            <option value="🌅 Scheduled Next-Day Morning Delivery (€4.99 Flat Fee)">🌅 Scheduled Next-Day Morning Delivery (€4.99 Flat Fee)</option>
           </select>
           <div class="err">Please choose a delivery window.</div>
         </div>
@@ -318,7 +311,6 @@
         <button class="btn-primary" onclick="goPage2()">Continue to your order →</button>
       </div>
 
-      <!-- PAGE 2 -->
       <div class="page" id="page2">
         <button class="btn-back" onclick="goPage1()">← Back</button>
         <div class="page-title">Build your list</div>
@@ -339,7 +331,6 @@
           <div class="err">Please choose a store.</div>
         </div>
 
-        <hr class="divider">
         <hr class="divider">
         <div class="sec-label">Savings & Memberships</div>
         <div class="field">
@@ -384,13 +375,13 @@
           <label>If an item is out of stock: <span class="req">*</span></label>
           <div class="radio-group">
             <label class="rbtn" onclick="selectOos(this)">
-              <input type="radio" name="oos" value="whatsapp"> <span>Text me on WhatsApp / Call me. If not responded, skip the item.</span>
+              <input type="radio" name="oos" value="Text me on WhatsApp / Call me. If not responded, skip the item."> <span>Text me on WhatsApp / Call me. If not responded, skip the item.</span>
             </label>
             <label class="rbtn" onclick="selectOos(this)">
-              <input type="radio" name="oos" value="autosub"> <span>Auto-substitute closest brand</span>
+              <input type="radio" name="oos" value="Auto-substitute closest brand"> <span>Auto-substitute closest brand</span>
             </label>
             <label class="rbtn" onclick="selectOos(this)">
-              <input type="radio" name="oos" value="skip"> <span>Don't buy — skip it</span>
+              <input type="radio" name="oos" value="Don't buy — skip it"> <span>Don't buy — skip it</span>
             </label>
           </div>
           <div class="err">Please choose an out-of-stock preference.</div>
@@ -430,7 +421,6 @@
         <button class="btn-primary" onclick="submitForm()">Place my order 🛍</button>
       </div>
 
-      <!-- SUCCESS -->
       <div class="success-wrap" id="successScreen">
         <div class="success-icon">
           <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
@@ -448,11 +438,8 @@
         </div>
       </div>
 
-    </div><!-- /form-body -->
-  </div><!-- /form-wrap -->
-</section>
+    </div></div></section>
 
-<!-- FOOTER -->
 <footer>
   <strong>GroceryBuddy</strong> &nbsp;·&nbsp; A referral-only neighbourhood concierge service<br>
   Dublin area &nbsp;·&nbsp; Orders via WhatsApp confirmation<br><br>
@@ -463,6 +450,8 @@
 function selectOos(el) {
   document.querySelectorAll('.rbtn').forEach(b => b.classList.remove('selected'));
   el.classList.add('selected');
+  // Form handling: check the hidden radio input inside clicked label wrapper
+  el.querySelector('input[type="radio"]').checked = true;
 }
 function handleFile(input) {
   if (input.files && input.files[0]) {
@@ -497,7 +486,9 @@ function goPage1() {
   document.getElementById('stepLabel').textContent = 'Step 1 of 2 — Trust gate & delivery timing';
   window.scrollTo({ top: document.getElementById('order').offsetTop - 60, behavior: 'smooth' });
 }
+
 function submitForm() {
+  // 1. Fetch Form Inputs
   const store = document.getElementById('store').value;
   const list = document.getElementById('grocerylist').value.trim();
   const oos = document.querySelector('input[name="oos"]:checked');
@@ -505,6 +496,13 @@ function submitForm() {
   const phone = document.getElementById('phone').value.trim();
   const addr = document.getElementById('address').value.trim();
   const gdpr = document.getElementById('gdpr').checked;
+  
+  // Fetch values from first page & optional notes
+  const referral = document.getElementById('referral').value.trim();
+  const timing = document.getElementById('timing').value;
+  const coupons = document.getElementById('membership').value.trim();
+
+  // 2. Validate Everything
   document.getElementById('f-store').classList.toggle('invalid', !store);
   document.getElementById('f-list').classList.toggle('invalid', !list);
   document.getElementById('f-oos').classList.toggle('invalid', !oos);
@@ -512,13 +510,54 @@ function submitForm() {
   document.getElementById('f-phone').classList.toggle('invalid', !phone);
   document.getElementById('f-address').classList.toggle('invalid', !addr);
   document.getElementById('f-gdpr').classList.toggle('invalid', !gdpr);
+  
   if (!store || !list || !oos || !name || !phone || !addr || !gdpr) return;
-  document.getElementById('page2').classList.remove('active');
-  document.getElementById('dot2').className = 'pdot done';
-  document.getElementById('dot2').textContent = '✓';
-  document.getElementById('stepLabel').textContent = 'Order placed — thank you!';
-  document.getElementById('successScreen').classList.add('active');
-  window.scrollTo({ top: document.getElementById('order').offsetTop - 60, behavior: 'smooth' });
+
+  // 3. Update Button UI Loading State
+  const submitBtn = document.querySelector('button[onclick="submitForm()"]');
+  const originalBtnText = submitBtn.textContent;
+  submitBtn.textContent = "Sending order... ⏳";
+  submitBtn.disabled = true;
+
+  // 4. Formulate the precise JSON parameters expected by your Google Script
+  const payload = {
+    name: name,
+    phone: phone,
+    address: addr,
+    referral: referral,
+    store: store,
+    delivery: timing,
+    groceryList: list,
+    coupons: coupons || "None",
+    outOfStock: oos.value
+  };
+
+  const webAppUrl = "https://script.google.com/macros/s/AKfycbxVIZNPhrVCgtz4HN9zKGxa3RyYGM9oATv9H52M9bxFX2IH9FKWiskWZB41g8SFOTf04w/exec";
+
+  // 5. Fire off the POST request inside a clean JSON package
+  fetch(webAppUrl, {
+    method: "POST",
+    mode: "no-cors", 
+    headers: {
+      "Content-Type": "text/plain"
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(() => {
+    // 6. Complete transition over to the Success screen layout
+    document.getElementById('page2').classList.remove('active');
+    document.getElementById('dot2').className = 'pdot done';
+    document.getElementById('dot2').textContent = '✓';
+    document.getElementById('stepLabel').textContent = 'Order placed — thank you!';
+    document.getElementById('successScreen').classList.add('active');
+    window.scrollTo({ top: document.getElementById('order').offsetTop - 60, behavior: 'smooth' });
+  })
+  .catch(error => {
+    console.error('Submission error:', error);
+    alert('Something went wrong saving your order. Please check your connection and try again.');
+    submitBtn.textContent = originalBtnText;
+    submitBtn.disabled = false;
+  });
 }
 </script>
 </body>
