@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GroceryBuddy — Your Neighbourhood Grocery Concierge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --emerald: #0b5233;
+    --emerald-mid: #1a7a4f;
+    --emerald-light: #e6f4ed;
+    --emerald-pale: #f2faf5;
+    --mint: #d4eddf;
+    --white: #ffffff;
+    --slate: #1e2b24;
+    --slate-mid: #3d5246;
+    --slate-muted: #6b8278;
+    --border: #c5e0d0;
+    --radius: 10px;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: #f7fdf9; color: var(--slate); line-height: 1.6; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.92); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 58px;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+  .nav-logo-icon { width: 30px; height: 30px; border-radius: 8px; background: var(--emerald); display: flex; align-items: center; justify-content: center; }
+  .nav-logo-icon svg { width: 17px; height: 17px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-logo-text { font-size: 16px; font-weight: 600; color: var(--emerald); letter-spacing: -0.3px; }
+  .nav-badge { font-size: 11px; background: var(--emerald-light); color: var(--emerald); border: 1px solid var(--mint); border-radius: 20px; padding: 3px 10px; font-weight: 500; }
+  .nav-cta { background: var(--emerald); color: #fff; border: none; border-radius: var(--radius); padding: 8px 16px; font-size: 13px; font-weight: 500; font-family: 'Inter', sans-serif; cursor: pointer; text-decoration: none; }
+
+  /* HERO */
+  .hero {
+    background: var(--emerald);
+    padding: 4rem 1.5rem 3rem;
+    text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 60% 0%, rgba(255,255,255,0.06) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 20px; padding: 5px 14px; font-size: 12px; color: #a8dfc0; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 1.25rem; }
+  .hero-eyebrow svg { width: 12px; height: 12px; fill: none; stroke: #a8dfc0; stroke-width: 2.2; stroke-linecap: round; }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 8vw, 2.8rem); color: #fff; line-height: 1.2; letter-spacing: -0.5px; margin-bottom: 1rem; }
+  .hero h1 em { color: #7dd9a8; font-style: normal; }
+  .hero-sub { font-size: 15px; color: #8ecfaa; max-width: 360px; margin: 0 auto 2rem; line-height: 1.7; }
+  .hero-cta { display: inline-block; background: #fff; color: var(--emerald); border-radius: var(--radius); padding: 13px 28px; font-size: 15px; font-weight: 600; text-decoration: none; transition: transform 0.15s; }
+  .hero-cta:hover { transform: translateY(-1px); }
+  .hero-note { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 10px; }
+
+  /* HOW IT WORKS */
+  .section { padding: 3rem 1.5rem; }
+  .section-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--emerald-mid); margin-bottom: 6px; }
+  .section-title { font-family: 'DM Serif Display', serif; font-size: clamp(1.5rem, 5vw, 2rem); color: var(--slate); letter-spacing: -0.3px; margin-bottom: 0.5rem; }
+  .section-sub { font-size: 14px; color: var(--slate-muted); max-width: 400px; line-height: 1.7; margin-bottom: 2rem; }
+  .steps { display: flex; flex-direction: column; gap: 1px; }
+  .step { display: flex; gap: 1rem; padding: 1.25rem 0; border-bottom: 1px solid var(--border); }
+  .step:last-child { border-bottom: none; }
+  .step-num { width: 36px; height: 36px; border-radius: 50%; background: var(--emerald); color: #fff; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .step-body h3 { font-size: 15px; font-weight: 600; color: var(--slate); margin-bottom: 3px; }
+  .step-body p { font-size: 13px; color: var(--slate-muted); line-height: 1.6; }
+
+  /* PERKS */
+  .perks-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .perk { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem; }
+  .perk-icon { width: 36px; height: 36px; border-radius: 9px; background: var(--emerald-light); display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+  .perk-icon svg { width: 18px; height: 18px; fill: none; stroke: var(--emerald); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .perk h4 { font-size: 13px; font-weight: 600; color: var(--slate); margin-bottom: 3px; }
+  .perk p { font-size: 12px; color: var(--slate-muted); line-height: 1.5; }
+
+  /* QUOTE STRIP */
+  .quote-strip { background: var(--emerald-pale); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 2rem 1.5rem; text-align: center; }
+  .quote-strip blockquote { font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: var(--emerald); line-height: 1.5; margin-bottom: 8px; }
+  .quote-strip cite { font-size: 12px; color: var(--slate-muted); font-style: normal; }
+
+  /* FORM SECTION */
+  .form-section { background: var(--white); padding: 2.5rem 1.5rem; }
+  .form-section-header { text-align: center; margin-bottom: 2rem; }
+  .form-wrap { max-width: 480px; margin: 0 auto; background: #fff; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+
+  /* FORM INTERNALS */
+  .form-header { background: var(--emerald); padding: 1.5rem 1.25rem 1.25rem; text-align: center; }
+  .form-invite-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.22); border-radius: 20px; padding: 4px 12px; font-size: 11px; color: #b8f0d0; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 10px; }
+  .form-brand { font-size: 20px; font-weight: 600; color: #fff; }
+  .form-brand-sub { font-size: 12px; color: #8ecfaa; margin-top: 2px; }
+  .progress-bar { display: flex; align-items: center; justify-content: center; margin-top: 1.1rem; gap: 2px; }
+  .pdot { width: 26px; height: 26px; border-radius: 50%; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+  .pdot.active { background: #fff; color: var(--emerald); }
+  .pdot.done { background: #2ecc71; color: #fff; }
+  .pdot.inactive { background: rgba(255,255,255,0.2); color: rgba(255,255,255,0.55); }
+  .pline { width: 44px; height: 2px; background: rgba(255,255,255,0.22); transition: background 0.3s; }
+  .pline.done { background: #2ecc71; }
+  .step-label-bar { font-size: 11px; color: rgba(255,255,255,0.6); text-align: center; margin-top: 6px; }
+  .form-body { padding: 1.5rem 1.25rem; }
+  .page { display: none; }
+  .page.active { display: block; }
+  .page-title { font-size: 16px; font-weight: 600; color: var(--slate); margin-bottom: 3px; }
+  .page-desc { font-size: 13px; color: var(--slate-muted); margin-bottom: 1.25rem; line-height: 1.55; }
+  .field { margin-bottom: 1rem; }
+  label { display: block; font-size: 13px; font-weight: 500; color: var(--slate); margin-bottom: 5px; }
+  .req { color: var(--emerald-mid); }
+  .opt { font-size: 11px; font-weight: 400; color: var(--slate-muted); margin-left: 3px; }
+  input[type=text], input[type=tel], select, textarea {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--border);
+    border-radius: var(--radius); font-size: 14px; font-family: 'Inter', sans-serif;
+    background: #fff; color: var(--slate); outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--emerald-mid); box-shadow: 0 0 0 3px rgba(26,122,79,0.1); }
+  select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b8278' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 32px; }
+  textarea { min-height: 110px; resize: vertical; line-height: 1.6; }
+  .field.invalid input, .field.invalid select, .field.invalid textarea { border-color: #e74c3c; }
+  .err { font-size: 12px; color: #c0392b; margin-top: 4px; display: none; }
+  .field.invalid .err { display: block; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 1.1rem 0; }
+  .sec-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--emerald); margin-bottom: 0.7rem; }
+  .radio-group { display: flex; flex-direction: column; gap: 7px; }
+  .rbtn { display: flex; align-items: center; gap: 10px; padding: 10px 13px; border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: all 0.18s; background: #fff; }
+  .rbtn:hover { border-color: var(--emerald-mid); background: var(--emerald-pale); }
+  .rbtn.selected { border-color: var(--emerald-mid); background: var(--emerald-light); }
+  .rbtn input[type=radio] { accent-color: var(--emerald); width: 15px; height: 15px; flex-shrink: 0; }
+  .rbtn span { font-size: 13.5px; color: var(--slate); }
+  .upload-zone { border: 1.5px dashed var(--border); border-radius: var(--radius); padding: 16px; text-align: center; cursor: pointer; background: var(--emerald-pale); transition: all 0.2s; }
+  .upload-zone:hover { border-color: var(--emerald-mid); background: var(--emerald-light); }
+  .upload-zone input { display: none; }
+  .upload-text { font-size: 13px; color: var(--slate-muted); }
+  .upload-text strong { color: var(--emerald); }
+  .upload-fn { font-size: 12px; color: var(--emerald); margin-top: 5px; font-weight: 500; }
+  .consent-row { display: flex; align-items: flex-start; gap: 10px; padding: 12px; background: var(--emerald-pale); border: 1px solid var(--border); border-radius: var(--radius); }
+  .consent-row input[type=checkbox] { accent-color: var(--emerald); width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; }
+  .consent-text { font-size: 12px; color: var(--slate-muted); line-height: 1.6; }
+  .btn-primary { width: 100%; padding: 13px; background: var(--emerald); color: #fff; border: none; border-radius: var(--radius); font-size: 15px; font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer; margin-top: 0.5rem; transition: background 0.2s; }
+  .btn-primary:hover { background: var(--emerald-mid); }
+  .btn-back { display: flex; align-items: center; gap: 5px; background: none; border: none; color: var(--slate-muted); font-size: 13px; font-family: 'Inter', sans-serif; cursor: pointer; padding: 0; margin-bottom: 1rem; }
+  .btn-back:hover { color: var(--emerald); }
+  .success-wrap { display: none; padding: 2.5rem 1.25rem; text-align: center; }
+  .success-wrap.active { display: block; }
+  .success-icon { width: 60px; height: 60px; border-radius: 50%; background: var(--emerald-light); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+  .success-icon svg { width: 28px; height: 28px; fill: none; stroke: var(--emerald); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .success-title { font-family: 'DM Serif Display', serif; font-size: 1.5rem; color: var(--slate); margin-bottom: 6px; }
+  .success-body { font-size: 14px; color: var(--slate-muted); line-height: 1.65; margin-bottom: 1.25rem; }
+  .wa-pill { display: inline-flex; align-items: center; gap: 7px; background: #e8f8ef; border: 1px solid #b2dfcc; border-radius: 20px; padding: 7px 16px; font-size: 13px; color: var(--emerald); font-weight: 500; margin-bottom: 1.5rem; }
+  .wa-pill svg { width: 18px; height: 18px; fill: #25d366; }
+  .success-steps { background: var(--emerald-pale); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; text-align: left; }
+  .sstep { display: flex; gap: 10px; padding: 6px 0; }
+  .snum { width: 20px; height: 20px; border-radius: 50%; background: var(--emerald); color: #fff; font-size: 11px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .stext { font-size: 13px; color: var(--slate-muted); line-height: 1.55; }
+  .stext strong { color: var(--slate); font-weight: 600; }
+
+  /* FOOTER */
+  footer { background: var(--emerald); color: rgba(255,255,255,0.6); text-align: center; padding: 1.75rem 1.5rem; font-size: 12px; line-height: 1.7; }
+  footer strong { color: #fff; }
+
+  @media (max-width: 400px) {
+    .perks-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    </div>
+    <span class="nav-logo-text">GroceryBuddy</span>
+  </a>
+  <span class="nav-badge">🔒 Invite only</span>
+  <a href="#order" class="nav-cta">Order now</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <svg viewBox="0 0 12 12"><path d="M6 1l1.5 3 3.5.5-2.5 2.5.5 3.5L6 9l-3 1.5.5-3.5L1 4.5 4.5 4z"/></svg>
+    Neighbourhood concierge service
+  </div>
+  <h1>Your groceries,<br><em>sorted today.</em></h1>
+  <p class="hero-sub">A personal shopper picks your order from the local supermarket and delivers it straight to your door — no apps, no subscriptions.</p>
+  <a href="#order" class="hero-cta">Place my order</a>
+  <p class="hero-note">Referral members only &nbsp;·&nbsp; Dublin area</p>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <p class="section-label">How it works</p>
+  <h2 class="section-title">Three steps to your door</h2>
+  <p class="section-sub">We keep it simple. No account to create, no subscription to manage.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Place your order</h3>
+        <p>Fill in the form below. Tell us your list, preferred store, and delivery window.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>We confirm on WhatsApp</h3>
+        <p>Your shopper messages you within minutes to confirm the list and handle any questions.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Delivered to your door</h3>
+        <p>You'll get a WhatsApp ETA when we're on the way. That's it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PERKS -->
+<section class="section" style="padding-top:0">
+  <p class="section-label">Why GroceryBuddy</p>
+  <h2 class="section-title">Built for busy neighbours</h2>
+  <p class="section-sub" style="margin-bottom:1.5rem">No hidden fees, no tech headaches. Just a trusted local service.</p>
+  <div class="perks-grid">
+    <div class="perk">
+      <div class="perk-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <h4>Same-day delivery</h4>
+      <p>Urgent slots available within the hour.</p>
+    </div>
+    <div class="perk">
+      <div class="perk-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <h4>Referral trust</h4>
+      <p>Every member is vouched for by a neighbour.</p>
+    </div>
+    <div class="perk">
+      <div class="perk-icon">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      </div>
+      <h4>WhatsApp updates</h4>
+      <p>Real-time messages from your shopper.</p>
+    </div>
+    <div class="perk">
+      <div class="perk-icon">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      </div>
+      <h4>No subscription</h4>
+      <p>Pay per shop. Nothing to cancel.</p>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-strip">
+  <blockquote>"It felt like having a helpful neighbour — not an app."</blockquote>
+  <cite>— Member since launch, Blackrock</cite>
+</div>
+
+<!-- ORDER FORM -->
+<section class="form-section" id="order">
+  <div class="form-section-header">
+    <p class="section-label" style="text-align:center">Place your order</p>
+    <h2 class="section-title" style="text-align:center">Ready to shop for you</h2>
+    <p class="section-sub" style="text-align:center; margin:0 auto 0">Fill in the form and we'll be in touch on WhatsApp shortly.</p>
+  </div>
+
+  <div class="form-wrap">
+    <div class="form-header">
+      <div class="form-invite-badge">🔒 Invite only</div>
+      <div class="form-brand">GroceryBuddy</div>
+      <div class="form-brand-sub">Your personal grocery concierge</div>
+      <div class="progress-bar">
+        <div class="pdot active" id="dot1">1</div>
+        <div class="pline" id="line1"></div>
+        <div class="pdot inactive" id="dot2">2</div>
+      </div>
+      <div class="step-label-bar" id="stepLabel">Step 1 of 2 — Trust gate &amp; delivery timing</div>
+    </div>
+
+    <div class="form-body">
+
+      <!-- PAGE 1 -->
+      <div class="page active" id="page1">
+        <div class="page-title">Welcome</div>
+        <div class="page-desc">This is a referral-only service. Please confirm who invited you before we begin.</div>
+
+        <div class="field" id="f-ref">
+          <label for="referral">Who referred you? <span class="req">*</span></label>
+          <input type="text" id="referral" placeholder="e.g. Sarah from No. 14" autocomplete="off">
+          <div class="err">Please let us know who referred you.</div>
+        </div>
+
+        <hr class="divider">
+        <div class="sec-label">Delivery timing</div>
+
+        <div class="field" id="f-timing">
+          <label for="timing">Select delivery window <span class="req">*</span></label>
+          <select id="timing">
+            <option value="">Choose a window…</option>
+            <option value="urgent">⚡ Instant 1-Hour Urgent Delivery (€7.99 Flat Fee)</option>
+            <option value="evening">🌆 Scheduled Evening Delivery (5:00 PM – 7:00 PM) (€4.99 Flat Fee)</option>
+            <option value="tonight">🌙 Scheduled Tonight Delivery (7:00 PM – 9:00 PM) (€4.99 Flat Fee)</option>
+            <option value="nextday">🌅 Scheduled Next-Day Morning Delivery (€4.99 Flat Fee)</option>
+          </select>
+          <div class="err">Please choose a delivery window.</div>
+        </div>
+
+        <button class="btn-primary" onclick="goPage2()">Continue to your order →</button>
+      </div>
+
+      <!-- PAGE 2 -->
+      <div class="page" id="page2">
+        <button class="btn-back" onclick="goPage1()">← Back</button>
+        <div class="page-title">Build your list</div>
+        <div class="page-desc">Tell us what to pick up. We'll handle the rest.</div>
+
+        <div class="sec-label">Where to shop</div>
+        <div class="field" id="f-store">
+          <label for="store">Preferred store <span class="req">*</span></label>
+          <select id="store">
+            <option value="">Select a store…</option>
+            <option>Tesco</option>
+            <option>SuperValu</option>
+            <option>Dunnes Stores</option>
+            <option>Eurasia Supermarket</option>
+            <option>Lidl / Aldi</option>
+            <option>No preference</option>
+          </select>
+          <div class="err">Please choose a store.</div>
+        </div>
+
+        <hr class="divider">
+        <hr class="divider">
+        <div class="sec-label">Savings & Memberships</div>
+        <div class="field">
+          <label for="membership">Coupon, Loyalty Card or Membership <span class="opt">(optional)</span></label>
+          <textarea id="membership" placeholder="Examples:
+• Tesco Clubcard
+• SuperValu Real Rewards
+• Dunnes €10 off €50 voucher
+• Lidl Plus coupon
+• Any promo code or membership you'd like us to use"></textarea>
+        </div>
+        <div class="consent-row" style="margin-bottom:1rem;">
+          <div class="consent-text">
+            💚 <strong>Your supermarket. Your discounts. Your savings.</strong><br>
+            We'll use your coupons, vouchers, loyalty cards and memberships wherever possible.<br><br>
+            <strong>GroceryBuddy only charges the delivery/service fee.</strong> Grocery prices and discounts remain those offered by the supermarket.
+          </div>
+        </div>
+
+        <div class="sec-label">Your grocery list</div>
+
+        <div class="field" id="f-list">
+          <label for="grocerylist">Type your grocery list <span class="req">*</span></label>
+          <textarea id="grocerylist" placeholder="e.g.&#10;• 2x Odlums porridge oats (large)&#10;• 1x Kerrygold butter (unsalted)&#10;• 6x free-range eggs&#10;• 1L Avonmore full-fat milk&#10;• 1x Brennans wholegrain bread&#10;&#10;Be as specific as you like — brand, size, quantity."></textarea>
+          <div class="err">Please add at least a few items to your list.</div>
+        </div>
+
+        <div class="field">
+          <label>Upload a photo or handwritten list <span class="opt">(optional)</span></label>
+          <div class="upload-zone" onclick="document.getElementById('fileInput').click()" role="button" tabindex="0" aria-label="Upload list photo">
+            <input type="file" id="fileInput" accept="image/*,.pdf" onchange="handleFile(this)">
+            <div style="font-size:22px; color:var(--emerald-mid); margin-bottom:6px">📷</div>
+            <div class="upload-text">Snap a photo of your notepad or pantry<br><strong>Tap to upload</strong></div>
+            <div class="upload-fn" id="fileName"></div>
+          </div>
+        </div>
+
+        <hr class="divider">
+        <div class="sec-label">Out-of-stock preference</div>
+
+        <div class="field" id="f-oos">
+          <label>If an item is out of stock: <span class="req">*</span></label>
+          <div class="radio-group">
+            <label class="rbtn" onclick="selectOos(this)">
+              <input type="radio" name="oos" value="whatsapp"> <span>Text me on WhatsApp / Call me. If not responded, skip the item.</span>
+            </label>
+            <label class="rbtn" onclick="selectOos(this)">
+              <input type="radio" name="oos" value="autosub"> <span>Auto-substitute closest brand</span>
+            </label>
+            <label class="rbtn" onclick="selectOos(this)">
+              <input type="radio" name="oos" value="skip"> <span>Don't buy — skip it</span>
+            </label>
+          </div>
+          <div class="err">Please choose an out-of-stock preference.</div>
+        </div>
+
+        <hr class="divider">
+        <div class="sec-label">Contact details</div>
+
+        <div class="field" id="f-name">
+          <label for="fullname">Full name <span class="req">*</span></label>
+          <input type="text" id="fullname" placeholder="e.g. Aoife Murphy" autocomplete="name">
+          <div class="err">Please enter your full name.</div>
+        </div>
+
+        <div class="field" id="f-phone">
+          <label for="phone">WhatsApp mobile number <span class="req">*</span></label>
+          <input type="tel" id="phone" placeholder="e.g. +353 87 123 4567" autocomplete="tel">
+          <div class="err">Please enter a valid mobile number.</div>
+        </div>
+
+        <div class="field" id="f-address">
+          <label for="address">Delivery address <span class="req">*</span></label>
+          <input type="text" id="address" placeholder="e.g. 4 Maple Drive, Blackrock, Co. Dublin" autocomplete="street-address">
+          <div class="err">Please enter your delivery address.</div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="field" id="f-gdpr">
+          <div class="consent-row">
+            <input type="checkbox" id="gdpr">
+            <div class="consent-text">I consent to this service securely processing my contact information solely to shop and fulfil my orders. My data is never shared with third parties. <span class="req">*</span></div>
+          </div>
+          <div class="err">Your consent is required to proceed.</div>
+        </div>
+
+        <button class="btn-primary" onclick="submitForm()">Place my order 🛍</button>
+      </div>
+
+      <!-- SUCCESS -->
+      <div class="success-wrap" id="successScreen">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="success-title">Order received!</div>
+        <div class="success-body">Your concierge request is in. Here's what happens next.</div>
+        <div class="wa-pill">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.484 2 12.017c0 1.99.586 3.845 1.599 5.385L2 22l4.739-1.565A9.96 9.96 0 0012 21.999c5.523 0 10-4.477 10-10s-4.477-10-10-10z" fill-rule="evenodd" clip-rule="evenodd"/></svg>
+          Expect a WhatsApp message shortly
+        </div>
+        <div class="success-steps">
+          <div class="sstep"><div class="snum">1</div><div class="stext"><strong>We confirm your order</strong> — your shopper will WhatsApp you within minutes to confirm the list.</div></div>
+          <div class="sstep"><div class="snum">2</div><div class="stext"><strong>We head to the shops</strong> — items are picked fresh and substitutions handled per your preference.</div></div>
+          <div class="sstep"><div class="snum">3</div><div class="stext"><strong>We deliver to your door</strong> — you'll get a WhatsApp ETA when we're on the way.</div></div>
+        </div>
+      </div>
+
+    </div><!-- /form-body -->
+  </div><!-- /form-wrap -->
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>GroceryBuddy</strong> &nbsp;·&nbsp; A referral-only neighbourhood concierge service<br>
+  Dublin area &nbsp;·&nbsp; Orders via WhatsApp confirmation<br><br>
+  <span style="font-size:11px">Data handled in line with GDPR. Your information is never shared or sold.</span>
+</footer>
+
+<script>
+function selectOos(el) {
+  document.querySelectorAll('.rbtn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function handleFile(input) {
+  if (input.files && input.files[0]) {
+    document.getElementById('fileName').textContent = '✓ ' + input.files[0].name;
+  }
+}
+function validate1() {
+  const ref = document.getElementById('referral').value.trim();
+  const tim = document.getElementById('timing').value;
+  document.getElementById('f-ref').classList.toggle('invalid', !ref);
+  document.getElementById('f-timing').classList.toggle('invalid', !tim);
+  return ref && tim;
+}
+function goPage2() {
+  if (!validate1()) return;
+  document.getElementById('page1').classList.remove('active');
+  document.getElementById('page2').classList.add('active');
+  document.getElementById('dot1').className = 'pdot done';
+  document.getElementById('dot1').textContent = '✓';
+  document.getElementById('dot2').className = 'pdot active';
+  document.getElementById('line1').className = 'pline done';
+  document.getElementById('stepLabel').textContent = 'Step 2 of 2 — Your list & contact details';
+  window.scrollTo({ top: document.getElementById('order').offsetTop - 60, behavior: 'smooth' });
+}
+function goPage1() {
+  document.getElementById('page2').classList.remove('active');
+  document.getElementById('page1').classList.add('active');
+  document.getElementById('dot1').className = 'pdot active';
+  document.getElementById('dot1').textContent = '1';
+  document.getElementById('dot2').className = 'pdot inactive';
+  document.getElementById('line1').className = 'pline';
+  document.getElementById('stepLabel').textContent = 'Step 1 of 2 — Trust gate & delivery timing';
+  window.scrollTo({ top: document.getElementById('order').offsetTop - 60, behavior: 'smooth' });
+}
+function submitForm() {
+  const store = document.getElementById('store').value;
+  const list = document.getElementById('grocerylist').value.trim();
+  const oos = document.querySelector('input[name="oos"]:checked');
+  const name = document.getElementById('fullname').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const addr = document.getElementById('address').value.trim();
+  const gdpr = document.getElementById('gdpr').checked;
+  document.getElementById('f-store').classList.toggle('invalid', !store);
+  document.getElementById('f-list').classList.toggle('invalid', !list);
+  document.getElementById('f-oos').classList.toggle('invalid', !oos);
+  document.getElementById('f-name').classList.toggle('invalid', !name);
+  document.getElementById('f-phone').classList.toggle('invalid', !phone);
+  document.getElementById('f-address').classList.toggle('invalid', !addr);
+  document.getElementById('f-gdpr').classList.toggle('invalid', !gdpr);
+  if (!store || !list || !oos || !name || !phone || !addr || !gdpr) return;
+  document.getElementById('page2').classList.remove('active');
+  document.getElementById('dot2').className = 'pdot done';
+  document.getElementById('dot2').textContent = '✓';
+  document.getElementById('stepLabel').textContent = 'Order placed — thank you!';
+  document.getElementById('successScreen').classList.add('active');
+  window.scrollTo({ top: document.getElementById('order').offsetTop - 60, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
